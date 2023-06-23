@@ -398,9 +398,13 @@ bs=$((0x40)) skip=1
 
 ## Thanks!
 
-Many thanks to Jim, [mbm], Anthony, Mattie, Steve, and everyone else who's contributed to this project. (PRs welcome if your name belongs here.)
+Many thanks to Jim, mbm, Anthony, Mattie, Steve, and everyone else who's contributed to this project. (PRs welcome if your name belongs here.)
 
-## Additional notes to add(?)
+## [❤️ Donate to support Iffy Books!](https://iffybooks.net/donate/)
+
+
+
+## Additional notes & scraps
 
 Part of the firmware is compressed with JFS2, and part of it uses TRX.
 
