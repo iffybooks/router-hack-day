@@ -37,7 +37,7 @@ the other ends.
 
 ❏ Plug in the router.
 
-❏ Run the following command to see if your computer recognizes the USB serial device.
+❏ Run the following command to see if your computer recognizes the USB serial device:
 
 ```
 ls /dev/ttyUSB*
@@ -71,12 +71,6 @@ minicom -D /dev/ttyUSB0 -c on
 keys to select **Serial port setup**.<img title="" src="images/image3.png" alt="" data-align="center">
 
 ❏ Press **F** to switch **Hardware Flow Control** to **No**.
-
-- Before:
-
-<img src="images/image2.png" title="" alt="" data-align="center">
-
-- After:
 
 ![](images/image5.png)
 
@@ -251,7 +245,7 @@ make: *** [<builtin>: xz_wrapper.o] Error 1
 # the XZ_SUPPORT line below.
 
 -#XZ_SUPPORT = 1
-+XZ_SUPPORT = 1w
++XZ_SUPPORT = 1
 ```
 
 It will be around line 38087 of the 38726, so pretty close to the bottom of the file.
