@@ -235,25 +235,56 @@ use one of the following:
 
 [![](images/image11.png){style="width: 664.80px; height: 373.93px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 664.80px; height: 373.93px;"}
 
-## Decompress the router firmware (the quick way)
+## Decompress the router firmware (the quick, easy way)
 
 The easiest way to see what's in the firmware is to decompress with [unblob](https://unblob.org/), using a Docker container to avoid dealing with dependencies. The downside of this approach is (compared to using unsquashfs, which we'll introduce below) is that you can't easily make edits and re-compress the firmware files.
 
-❏ If you don't have Docker installer, download and install it: [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/]](https://docs.docker.com/get-docker/)
+❏ If you don't have Docker installed, download and install it now: [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/]](https://docs.docker.com/get-docker/)
 
-❏ You can adapt the Docker command below to decompress your firmware file. In this case the file is called`firmware.bin`:
+❏ Create directories named **input** and **output** in the same directory, and **cd** to it.
 
 ```
-docker run \
-–rm \
-–pull always \
--v /Users/iffybooks/Documents/Router_firmware/output:/data/output \
-ghcr.io/onekey-sec/unblob:latest –report firmware_report.json /data/input/firmware.bin
+mkdir -p ~/Documents/Router_firmware/input
+mkdir -p ~/Documents/Router_firmware/output
+cd ~/Documents/Router_firmware
 ```
 
+❏ Move your **.bin** firmware file to the **input** directory:
 
+![](/Users/iffybooks/Library/Application%20Support/marktext/images/2023-06-23-00-28-42-image.png)
 
-## Decompress the router firmware (the proper way)
+❏ Change the firmware filename to **firmware.bin** (optional; this is so the Docker command is the same for everyone):
+
+![](/Users/iffybooks/Library/Application%20Support/marktext/images/2023-06-23-00-29-49-image.png)
+
+❏ Open the Docker application; it may take a minute or so to launch. You'll see a whale icon in your toolbar when it's ready.
+
+❏ Run this command to pull the latest unblob Docker image:
+
+```
+docker pull ghcr.io/onekey-sec/unblob:latest
+```
+
+❏ Run the Docker command below to decompress your firmware file:
+
+```
+docker run --rm \
+-v ./input:/data/input \
+-v ./output:/data/output \
+ghcr.io/onekey-sec/unblob:latest /data/input/firmware.bin
+```
+
+When it's done, open the **output** directory and you'll see a new directory called **firmware.bin_extract** that contains the decompressed firmware.
+
+<img title="" src="file:///Users/iffybooks/Library/Application%20Support/marktext/images/2023-06-23-00-59-10-image.png" alt="" data-align="center" width="438">
+
+↳ If you get interrupted and want to start again, you'll need to delete the **firmware.bin_extract** directory in **output**.
+
+```
+rm -rd ./output/firmware.bin_extract
+```
+
+## Decompress the router firmware (the proper, difficult way)
 
 These instructions are from Jim. Thanks, Jim!
 
@@ -268,6 +299,7 @@ sudo apt-get install build-essential liblzma-dev liblzo2-dev zlib1g-dev
 if you run ./build.sh at this point you will get a bunch of errors related to xz_wrapper and LZMA
 eventually it ends in something like this:
 
+```
 xz_wrapper.c:462:20: error: ‘LZMA_BUF_ERROR’ undeclared (first use in this function)
   462 |   } else if(res != LZMA_BUF_ERROR)
       |                    ^~~~~~~~~~~~~~
@@ -286,45 +318,55 @@ xz_wrapper.c:503:1: error: control reaches end of non-void function [-Werror=ret
       | ^
 cc1: all warnings being treated as errors
 make: *** [<builtin>: xz_wrapper.o] Error 1
+```
 
-open the patch file in ./patches/patch0.txt and find this section
+Open the patch file in `./patches/patch0.txt` and find this section: 
 
+```
 # To build using XZ Utils liblzma - install the library and uncomment
-
 # the XZ_SUPPORT line below.
 
-# 
-
 -#XZ_SUPPORT = 1
-+XZ_SUPPORT = 1
++XZ_SUPPORT = 1w
+```
 
-It will be around line 38087 of the 38726, so pretty close to the bottom of the file
+It will be around line 38087 of the 38726, so pretty close to the bottom of the file.
 
 change the line from
-+XZ_SUPPORT = 1
+`+XZ_SUPPORT = 1`
 to
-+XZ_SUPPORT = 0
+`+XZ_SUPPORT = 0`
 
-then run ./build.sh again
+then run **./build.sh** again
 
 this time it works successfully and end in something like this
 
+```
 make[1]: Entering directory '/AC1200/sasquatch/squashfs4.3/squashfs-tools/LZMA/lzmadaptive/C/7zip/Compress/LZMA_Lib'
 make[1]: Nothing to be done for 'all'.
 make[1]: Leaving directory '/AC1200/sasquatch/squashfs4.3/squashfs-tools/LZMA/lzmadaptive/C/7zip/Compress/LZMA_Lib'
 cc -g -O2  -I. -I./LZMA/lzma465/C -I./LZMA/lzmalt -I./LZMA/lzmadaptive/C/7zip/Compress/LZMA_Lib -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_GNU_SOURCE -DCOMP_DEFAULT=\"gzip\" -Wall -Werror  -DGZIP_SUPPORT -DLZMA_SUPPORT -DLZO_SUPPORT -DXATTR_SUPPORT -DXATTR_DEFAULT   -c -o lzma_wrapper.o lzma_wrapper.c
 g++   ./LZMA/lzmalt/*.o unsquashfs.o unsquash-1.o unsquash-2.o unsquash-3.o unsquash-4.o swap.o compressor.o unsquashfs_info.o gzip_wrapper.o lzma_wrapper.o ./LZMA/lzma465/C/Alloc.o ./LZMA/lzma465/C/LzFind.o ./LZMA/lzma465/C/LzmaDec.o ./LZMA/lzma465/C/LzmaEnc.o ./LZMA/lzma465/C/LzmaLib.o lzo_wrapper.o read_xattrs.o unsquashfs_xattr.o -lpthread -lm -lz -L./LZMA/lzmadaptive/C/7zip/Compress/LZMA_Lib -llzmalib   -llzo2 -o sasquatch
+```
+
+Run the commands below to move the compiled binary **sasquatch** to your **/usr/local/bin** directory.
+
+```
 mkdir -p /usr/local/bin
 cp sasquatch /usr/local/bin
+```
 
-now when you run binwalk on the firmware dump file it will extract as expected
+Now when you run **binwalk** on the firmware dump file it will extract as expected:
 
+```
 binwalk -eM flash.bin
+```
 
-now the squashfs-root directory contains the files from the router
+Now the squashfs-root directory contains the files from the router
 
-notably, check out the passwd and shadow files
+notably, check out the passwd and shadow files:
 
+```
 $ find . | egrep "passwd|shadow"
 ./squashfs-root/etc_ro/passwd
 ./squashfs-root/etc_ro/passwd_private
@@ -336,6 +378,7 @@ $ find . | egrep "passwd|shadow"
 ./squashfs-root/var/etc/passwd_private
 ./squashfs-root/var/etc/shadow
 ./squashfs-root/var/etc/shadow_private
+```
 
 ## Install and configure buildroot
 
