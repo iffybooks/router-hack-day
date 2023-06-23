@@ -2,49 +2,48 @@
 
 <img title="" src="images/image1.png" alt="" width="165" data-align="left">
 
-## Access your router's serial shell
+## Connect wires to your router's serial pinout
 
-Disassemble your router. You'll need to remove a screw on the bottom,
+❏ Disassemble your router. You'll need to remove a screw on the bottom,
 which is covered by a sticker.
 
-Cut the ends off three DuPont jumper wires, leaving port connectors on
+❏ Cut the ends off three DuPont jumper wires, leaving port connectors on
 the other ends.
 
-Solder the stripped wires to the terminal points pictured below,
-located in the middle of the circuit board.
+❏ Solder the stripped wires to the pinout terminals pictured below, located in the middle of the circuit board. 
 
-Connect the terminal labeled **Tx** in the image above to the pin
-labeled [Rx]{.c8} on your USB serial interface. Next, connect
-[Rx]{.c8} from the router to [Tx]{.c8} on the USB serial interface. Then
-connect **GND** to **GND**
+<img title="" src="images/image14.png" alt="" width="509" data-align="center">
 
-![](images/image14.png)
+❏ Next you'll connect the the three wires to your USB serial interface.
 
-![](images/image6.png)
+- Connect the terminal labeled **Tx** in the image above to the pin
+  labeled **Rx** on your USB serial interface.
 
- ❏ Plug the USB serial interface into your computer.
+- Connect **Rx** from the router to **Tx** on the USB serial interface.
+
+- Connect **GND** to **GND**.
+
+<img title="" src="images/image6.png" alt="" width="482" data-align="center">
+
+❏ Plug the USB serial interface into your computer.
 
 ❏ Plug in the router.
 
-❏ Run the following command to see if your USB serial interface is
-connected:
+❏ Run the following command to see if your computer recognizes the USB serial device.
 
 ```
 ls /dev/ttyUSB*
 ```
 
-The output should be something like `/dev/ttyUSB0`. If you don't get any output, you can try running the following command to uninstall **brltty** (a program for interfacing with braille displays).
+If your computer recognizes the device, the output should look something like `/dev/ttyUSB0`. 
+
+↳ If you don't get any output, try running the following command to uninstall **brltty**. (It's a program for interfacing with braille displays that's been causing problems with this step.)
 
 ```
 sudo apt-get autoremove brltty
 ```
 
-If you're still troubleshooting, you can run the following two commands to get more info about your connected USB devices:
-
-```
-lsusb
-dmesg
-```
+↳ If you're still troubleshooting, you can run `lsusb` and/or `dmesg` to get more info about your connected USB devices.
 
 ## Open a serial connection with your router
 
@@ -61,10 +60,9 @@ minicom -D /dev/ttyUSB0 -c on
 ```
 
 Press CTRL+A, then press O to open the configuration menu. Use the arrow
-keys to select **Serial port setup**.![](images/image3.png){style="width: 664.80px; height: 373.93px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 664.80px; height: 373.93px;"}
+keys to select **Serial port setup**.![](images/image3.png)
 
-Press [F]{.c8} to switch [Hardware Flow Control]{.c8} to
-*No*.
+Press **F** to switch **Hardware Flow Control** to **No**.
 
 Before:
 
@@ -72,37 +70,35 @@ Before:
 
 After:
 
-![](images/image5.png){style="width: 455.03px; height: 310.37px; margin-left: -28.08px; margin-top: -46.35px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}
+![](images/image5.png)
 
-Press **enter** to close the serial port setup menu.
+❏ Press **enter** to close the serial port setup menu.
 
-To save this setting as your default, use the down arrow to select [Save
-setup as dfl]{.c8}[. Press enter to save.
+❏ To save this setting as your default, use the down arrow to select **Save
+setup as dfl**. Press **enter** to save.
 
-![](images/image4.png){style="width: 448.34px; height: 281.45px; margin-left: -16.39px; margin-top: -5.01px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 326.07px; height: 263.00px;"}
+![](images/image4.png)
 
-Use the arrow keys to select [Exit]{.c8}, then press
-[enter]{.c8}[.
+❏ Use the arrow keys to select **Exit**, then press **enter**.
 
-Press enter and you'll be prompted to log in.
+❏ Press **enter** once or twice and you'll be prompted to log in. Use the login info below:
 
-username: root
+    username: root
 
-password: Fireitup
+    password: Fireitup
 
-Press [tab]{.c8}[ twice in a row to see a list of available
-software.
+❏ Press **tab** twice in a row to see a list of available tools.
 
-Restart your router while the USB serial connector is attached and
+❏ Restart your router while the USB serial connector is attached and
 you'll see a waterfall of interesting startup info:
 
-![](images/image8.png){style="width: 495.66px; height: 276.25px; margin-left: -3.98px; margin-top: -5.75px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 476.20px; height: 258.73px;"}
+![](images/image8.png)
 
-To get your router's SSID name, use the command [wl status]{.c8}[.
+❏ To get your router's SSID name, use the command `wl status`.
 
-![](images/image7.png){style="width: 427.80px; height: 238.48px; margin-left: -2.96px; margin-top: -4.28px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 410.80px; height: 223.40px;"}
+![](images/image7.png)
 
-[Creating 8 MTD partitions on \"sflash\":
+Creating 8 MTD partitions on \"sflash\":
 
 \[what\'s on the flash device\]
 
@@ -239,9 +235,27 @@ use one of the following:
 
 [![](images/image11.png){style="width: 664.80px; height: 373.93px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 664.80px; height: 373.93px;"}
 
-## Decompress the router firmware
+## Decompress the router firmware (the quick way)
 
-[These instructions are from Jim. Thanks, Jim!
+The easiest way to see what's in the firmware is to decompress with [unblob](https://unblob.org/), using a Docker container to avoid dealing with dependencies. The downside of this approach is (compared to using unsquashfs, which we'll introduce below) is that you can't easily make edits and re-compress the firmware files.
+
+❏ If you don't have Docker installer, download and install it: [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/]](https://docs.docker.com/get-docker/)
+
+❏ You can adapt the Docker command below to decompress your firmware file. In this case the file is called`firmware.bin`:
+
+```
+docker run \
+–rm \
+–pull always \
+-v /Users/iffybooks/Documents/Router_firmware/output:/data/output \
+ghcr.io/onekey-sec/unblob:latest –report firmware_report.json /data/input/firmware.bin
+```
+
+
+
+## Decompress the router firmware (the proper way)
+
+These instructions are from Jim. Thanks, Jim!
 
 clone the repo
 git clone https://github.com/devttys0/sasquatch.git
@@ -339,9 +353,9 @@ Go to **Target options \> Target Architecture** and select
 Go to [Toolchain \>]{.c8} [Toolchain type]{.c8}[ and switch the C
 library to ]{.c18}[musl]{.c8}[.]{.c18}
 
-[![](images/image13.png){style="width: 664.80px; height: 373.73px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 664.80px; height: 373.73px;"}
+[![](images/image13.png)
 
-[![](images/image15.png){style="width: 664.80px; height: 373.73px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 664.80px; height: 373.73px;"}
+![](images/image15.png)
 
 Select [Exit]{.c8}[ to go back to the main menu.]{.c18}
 
@@ -355,13 +369,11 @@ Go back to the main menu and use the left and right arrow keys to select
 
 ![](images/image17.png){style="width: 625.19px; height: 354.83px; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 530.40px; height: 308.07px;"}
 
-[![](images/image18.png){style="width: 470.39px; height: 287.26px; margin-left: -70.62px; margin-top: -12.92px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 327.73px; height: 236.67px;"}
+[![](images/image18.png)
 
 Select [Exit]{.c8}[ to close the menuconfig tool.
 
 Next, run the command [make tcpdump]{.c8}[. It will take a while,
 possibly 20 minutes or more.
 
-![](images/image19.png){style="width: 568.64px; height: 346.83px; margin-left: -84.93px; margin-top: -15.65px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 396.60px; height: 285.33px;"}
-
-[
+![](images/image19.png)
