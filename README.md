@@ -1,6 +1,11 @@
 # Notes for Router Hack Day 2
 
+*Saturday, June 24th, 2023*
+
 <img title="" src="images/image1.png" alt="" width="165" data-align="left">
+
+ You can find this document online at the following URL: 
+ [https://iffybooks.net/router-hack-day-2](https://iffybooks.net/router-hack-day-2)
 
 ## Connect wires to your router's serial pinout
 
@@ -47,28 +52,28 @@ sudo apt-get autoremove brltty
 
 ## Open a serial connection with your router
 
-Run the following command to install minicom:
+❏ Run the following command to install **minicom**:
 
 ```
 sudo apt-get install minicom
 ```
 
-Command for opening serial connection with your router:
+❏ Command for opening serial connection with your router:
 
 ```
 minicom -D /dev/ttyUSB0 -c on
 ```
 
-Press CTRL+A, then press O to open the configuration menu. Use the arrow
-keys to select **Serial port setup**.![](images/image3.png)
+❏ Press CTRL+A, then press O to open the configuration menu. Use the arrow
+keys to select **Serial port setup**.<img title="" src="images/image3.png" alt="" data-align="center">
 
-Press **F** to switch **Hardware Flow Control** to **No**.
+❏ Press **F** to switch **Hardware Flow Control** to **No**.
 
-Before:
+- Before:
 
-![](images/image2.png){style="width: 452.51px; height: 310.30px; margin-left: -28.28px; margin-top: -46.40px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}
+<img src="images/image2.png" title="" alt="" data-align="center">
 
-After:
+- After:
 
 ![](images/image5.png)
 
@@ -83,9 +88,9 @@ setup as dfl**. Press **enter** to save.
 
 ❏ Press **enter** once or twice and you'll be prompted to log in. Use the login info below:
 
-    username: root
+    username: **root**
 
-    password: Fireitup
+    password: **Fireitup**
 
 ❏ Press **tab** twice in a row to see a list of available tools.
 
@@ -98,142 +103,53 @@ you'll see a waterfall of interesting startup info:
 
 ![](images/image7.png)
 
-Creating 8 MTD partitions on \"sflash\":
-
-\[what\'s on the flash device\]
-
-binwalk -Me \.....bin
-
-CRC value tells us the checksum of everything after HDR0
-
-OpenWRT has tools to do this.
-
-dd for manipulating the firmware
-
-40 hex bytes at a time, but skip first 40 bytes:
-
-dd if=US_FH1201V1.0BR_V1.2.0.14\\(408\\)\_EN_RD.bin of=data
-bs=\$((0x40)) skip=1
-
-In CFE mode, give yourself an IP address
-
-Like 192.168.1.X
-
-Then go to 192.168.1.1 and upload TRX firmware file
-
-Remove
-
-TRX format starts with HR0 in all caps
-
-trx format
-
-\#########
-
-Mount file system in serial shell:
-
-mount -t usbfs none /proc/bus/usb/
-
-Show connected USB devices:
-
-cat /proc/bus/usb/
-
-Do a web search for vendor id number and prodID number to get the chip
-details
-
-Wireless adapter:
-
-BCM43526
-
-\[SOIC8
-
-square next to serial connectors, which contains the firmware
-
-\]
-
-SOIC:
-
-25q64b
-
-\[CH341 is the tool to flash the firmware chip itself\]
-
-Main CPU:
-
-BCM5357
-
-32-bit little endian
-
-go to buildroot dir
-
-make menuconfig
-
-target options \-- MIPS little endian
-
-toolchain \--\> change c compiler to musl
-
-build options \--\> switch libraries to static only
-
-target packages -\> networking applications -\> enable tcpdump (press
-space)
-
-save and exit
-
-make tcpdump
-
 ## Download router firmware
 
-[Here's the stock firmware that comes with the router:
+Here's the stock firmware that comes with the router:
 
-Atlas Media AMW-DBR1200AC Firmware:]{.c6}
+- Atlas Media AMW-DBR1200AC Firmware: 
+  [https://iffybooks.net/wp-content/uploads/2023/05/AtlasMedia_AC1200_FirmwareV1.4.bin](https://iffybooks.net/wp-content/uploads/2023/05/AtlasMedia_AC1200_FirmwareV1.4.bin)
 
-[             
-]{.c7}[[https://iffybooks.net/wp-content/uploads/2023/05/AtlasMedia_AC1200_FirmwareV1.4.bin](https://www.google.com/url?q=https://iffybooks.net/wp-content/uploads/2023/05/AtlasMedia_AC1200_FirmwareV1.4.bin&sa=D&source=editors&ust=1687491815732647&usg=AOvVaw35NOxv89RdpF5V6RBdIUHF){.c12}]{.c4}
+And here are two firmware releases from Tenda that work with the
+router. You'll need to extract the files after downloading:
 
-[And here are two firmware releases from Tenda that work with the
-router. You'll need to extract the files after downloading.
+- Tenda FH1201 Firmware V1.2.0.8_EN: [https://www.tendacn.com/us/download/detail-2123.html](https://www.tendacn.com/us/download/detail-2123.html)
 
-Tenda FH1201 Firmware V1.2.0.8_EN:]{.c13 .c16 .c8}[ \
+- Tenda FH1206 Firmware V1.2.0.8(8155)\_EN:
+  [https://www.tendacn.com/us/download/detail-2344.html](https://www.tendacn.com/us/download/detail-2344.html)
 
- ]{.c7}[[h](https://www.google.com/url?q=https://www.tendacn.com/us/download/detail-2123.html&sa=D&source=editors&ust=1687491815733143&usg=AOvVaw3FdE1pvtPm-j5gr5-SM4cH){.c12}]{.c1
-.c8
-.c16}[[ttps://www.tendacn.com/us/download/detail-2123.html](https://www.google.com/url?q=https://www.tendacn.com/us/download/detail-2123.html&sa=D&source=editors&ust=1687491815733321&usg=AOvVaw2ALaB24KgMalevRccKuXjJ){.c12}]{.c4}
+❏ Download the [Tenda
+FH1206 firmware](https://www.tendacn.com/us/download/detail-2344.html) or your firmware of choice from the list above.
 
-[Tenda FH1206 Firmware V1.2.0.8(8155)\_EN:]{.c6}
-
-[             
-]{.c7}[[https://www.tendacn.com/us/download/detail-2344.html](https://www.google.com/url?q=https://www.tendacn.com/us/download/detail-2344.html&sa=D&source=editors&ust=1687491815733587&usg=AOvVaw1MbjtlTtHl8R5TLIhDThV1){.c12}]{.c4}
-
-Download the [[Tenda
-FH1206](https://www.google.com/url?q=https://www.tendacn.com/us/download/detail-2344.html&sa=D&source=editors&ust=1687491815733826&usg=AOvVaw3GSgpqA29tuHjrpWse8HSo){.c12}]{.c1}[ firmware,
-or your firmware of choice from the list above.
-
-Decompress the
-[[RAR](https://www.google.com/url?q=https://en.wikipedia.org/wiki/RAR_(file_format)&sa=D&source=editors&ust=1687491815734065&usg=AOvVaw14-VebMCdiThVr9G98d92O){.c12}]{.c1} files
-you downloaded from Tenda's site, giving you a firmware file with a name
-like [US_FH1206V1.0BR_V1.2.0.8(8155)\_EN_TD.bin]{.c8}[. If you don't
+❏ Decompress the [RAR](https://en.wikipedia.org/wiki/RAR_(file_format)) files you downloaded from Tenda's site, giving you a firmware file with a name like **US_FH1206V1.0BR_V1.2.0.8(8155)\_EN_TD.bin**. If you don't
 already have a program installed for decompressing RAR files, you can
 use one of the following:
 
-        ]{.c17 .c8}[MacOS:]{.c13 .c8} [The Unarchiver]{.c18
+- MacOS: The Unarchiver [https://theunarchiver.com](https://theunarchiver.com)
 
-.c23} [[https://theunarchiver.com](https://www.google.com/url?q=https://theunarchiver.com/&sa=D&source=editors&ust=1687491815734442&usg=AOvVaw0ZRgVfVXTzXhjTE8J7HuR5){.c12}]{.c1}
+- Windows: WinRAR [https://www.win-rar.com](https://www.win-rar.com/)
 
-[        ]{.c17 .c8}[Windows:]{.c13 .c8} WinRAR
-[[https://www.win-rar.com](https://www.google.com/url?q=https://www.win-rar.com/&sa=D&source=editors&ust=1687491815734764&usg=AOvVaw3s5jRtvU_JSLzsYkPRWYaf){.c12}]{.c1}
+- Linux: unrar [https://linux.die.net/man/1/unrar](https://linux.die.net/man/1/unrar)
 
-[        ]{.c8 .c17}[Linux:]{.c8 .c13} unrar
-[[https://linux.die.net/man/1/unrar](https://www.google.com/url?q=https://linux.die.net/man/1/unrar&sa=D&source=editors&ust=1687491815735080&usg=AOvVaw3mjD2T5OHci2OIcO2uNDK1){.c12}]{.c1}
+## Update router firmware through the admin panel
 
-[Upload new firmware through the router admin panel]{.c8 .c9}
+❏ Connect to your router's network via wi-fi or Ethernet.
 
-[ 
+❏ Open your browser and go to `192.168.0.1` to access the admin panel. Log in with the default password **admin**.
 
-![](images/image10.png){style="width: 664.80px; height: 373.93px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 664.80px; height: 373.93px;"}
+❏ After loggin in, click **Advanced** and go to the **Tools** tab. Then click **Firmware Update** in the left column.
 
-[![](images/image9.png){style="width: 664.80px; height: 373.93px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 664.80px; height: 373.93px;"}
+❏ Click the **Browse** button and select a firmware file. Then click **Upgrade** to start flashing the firmware to the router.
 
-[![](images/image9.png){style="width: 664.80px; height: 373.93px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 664.80px; height: 373.93px;"}
+![](images/image10.png)
 
-[![](images/image11.png){style="width: 664.80px; height: 373.93px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 664.80px; height: 373.93px;"}
+❏ If you want, you can open the serial shell to monitor the upload process.
+
+![](images/image9.png)
+
+❏ When the flashing process is done, connect to the router's network and go to `192.168.0.1` in your browser. You'll notice the admin panel looks slightly different compared to the stock firmware.
+
+![](images/image11.png)
 
 ## Decompress the router firmware (the quick, easy way)
 
@@ -251,7 +167,7 @@ cd ~/Documents/Router_firmware
 
 ❏ Move your **.bin** firmware file to the **input** directory:
 
-![](/Users/iffybooks/Library/Application%20Support/marktext/images/2023-06-23-00-28-42-image.png)
+<img src="file:///Users/iffybooks/Library/Application%20Support/marktext/images/2023-06-23-00-28-42-image.png" title="" alt="" data-align="center">
 
 ❏ Change the firmware filename to **firmware.bin** (optional; this is so the Docker command is the same for everyone):
 
@@ -288,16 +204,21 @@ rm -rd ./output/firmware.bin_extract
 
 These instructions are from Jim. Thanks, Jim!
 
-clone the repo
+❏ Clone the Sasquatch repo:
+
+```
 git clone https://github.com/devttys0/sasquatch.git
+```
 
-then cd in to sasquatch directory
+❏ Then **cd** into the sasquatch directory.
 
-the README mentions this as a pre-req, so do this
+❏ The README mentions this as a pre-req, so do this:
+
+```
 sudo apt-get install build-essential liblzma-dev liblzo2-dev zlib1g-dev
+```
 
-if you run ./build.sh at this point you will get a bunch of errors related to xz_wrapper and LZMA
-eventually it ends in something like this:
+❏ If you run `./build.sh` at this point you will get a bunch of errors related to xz_wrapper and LZMA. Eventually it ends in something like this:
 
 ```
 xz_wrapper.c:462:20: error: ‘LZMA_BUF_ERROR’ undeclared (first use in this function)
@@ -320,7 +241,7 @@ cc1: all warnings being treated as errors
 make: *** [<builtin>: xz_wrapper.o] Error 1
 ```
 
-Open the patch file in `./patches/patch0.txt` and find this section: 
+❏ Open the patch file in `./patches/patch0.txt` and find this section: 
 
 ```
 # To build using XZ Utils liblzma - install the library and uncomment
@@ -332,14 +253,14 @@ Open the patch file in `./patches/patch0.txt` and find this section:
 
 It will be around line 38087 of the 38726, so pretty close to the bottom of the file.
 
-change the line from
+❏ Change the line from
 `+XZ_SUPPORT = 1`
 to
 `+XZ_SUPPORT = 0`
 
-then run **./build.sh** again
+then run **./build.sh** again.
 
-this time it works successfully and end in something like this
+This time it works successfully and end in something like this:
 
 ```
 make[1]: Entering directory '/AC1200/sasquatch/squashfs4.3/squashfs-tools/LZMA/lzmadaptive/C/7zip/Compress/LZMA_Lib'
@@ -349,22 +270,20 @@ cc -g -O2  -I. -I./LZMA/lzma465/C -I./LZMA/lzmalt -I./LZMA/lzmadaptive/C/7zip/Co
 g++   ./LZMA/lzmalt/*.o unsquashfs.o unsquash-1.o unsquash-2.o unsquash-3.o unsquash-4.o swap.o compressor.o unsquashfs_info.o gzip_wrapper.o lzma_wrapper.o ./LZMA/lzma465/C/Alloc.o ./LZMA/lzma465/C/LzFind.o ./LZMA/lzma465/C/LzmaDec.o ./LZMA/lzma465/C/LzmaEnc.o ./LZMA/lzma465/C/LzmaLib.o lzo_wrapper.o read_xattrs.o unsquashfs_xattr.o -lpthread -lm -lz -L./LZMA/lzmadaptive/C/7zip/Compress/LZMA_Lib -llzmalib   -llzo2 -o sasquatch
 ```
 
-Run the commands below to move the compiled binary **sasquatch** to your **/usr/local/bin** directory.
+Run the commands below to move the compiled binary **sasquatch** to your **/usr/local/bin** directory:
 
 ```
 mkdir -p /usr/local/bin
 cp sasquatch /usr/local/bin
 ```
 
-Now when you run **binwalk** on the firmware dump file it will extract as expected:
+❏ Now when you run **binwalk** on the firmware dump file it will extract as expected:
 
 ```
 binwalk -eM flash.bin
 ```
 
-Now the squashfs-root directory contains the files from the router
-
-notably, check out the passwd and shadow files:
+❏ Now the squashfs-root directory contains the files from the router. Notably, check out the passwd and shadow files:
 
 ```
 $ find . | egrep "passwd|shadow"
@@ -382,41 +301,115 @@ $ find . | egrep "passwd|shadow"
 
 ## Install and configure buildroot
 
-Go to [buildroot.org]{.c8} and click [Download]{.c8}[. Download and
-extract the package.
+❏ Go to [https://buildroot.org](https://buildroot.org) and click **Download**.
 
-cd]{.c8} to the directory you just created. Then run the command [make
-menuconfig]{.c8}[.
+❏ Download and extract the package.
 
-![](images/image12.png){style="width: 567.90px; height: 245.71px; margin-left: -86.13px; margin-top: -10.45px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 395.27px; height: 121.20px;"}
+❏ **cd** to the directory you just created. Then run the command `make
+menuconfig`.
 
-Go to **Target options \> Target Architecture** and select
-**MIPS (little endian)**.
+![](images/image12.png)
 
-Go to [Toolchain \>]{.c8} [Toolchain type]{.c8}[ and switch the C
-library to ]{.c18}[musl]{.c8}[.]{.c18}
+❏ Go to **Target options \> Target Architecture** and select **MIPS (little endian)**.
 
-[![](images/image13.png)
+❏ Go to **Toolchain \> Toolchain type** and switch the C library to **musl**.
+
+![](images/image13.png)
 
 ![](images/image15.png)
 
-Select [Exit]{.c8}[ to go back to the main menu.]{.c18}
+❏ Select **Exit** with the left and right arrow keys to go back to the main menu.
 
-Go to [Build options ]{.c8}and set [libraries]{.c8} to [shared
-only]{.c8}[.
+❏ Go to **Build options** and set **libraries** to **shared only**.
 
-![](images/image16.png){style="width: 664.80px; height: 373.73px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 664.80px; height: 373.73px;"}
+![](images/image16.png)
 
-Go back to the main menu and use the left and right arrow keys to select
-[Save]{.c8}. Select [OK]{.c8} and press [enter]{.c8}[.
+❏ Go to **Target packages > Networking applications > enable tcpdump** (press
+space).
 
-![](images/image17.png){style="width: 625.19px; height: 354.83px; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"}]{style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 530.40px; height: 308.07px;"}
+❏ Go back to the main menu and select **Save**. Select **OK** and press **enter**.
 
-[![](images/image18.png)
+![](images/image17.png)
 
-Select [Exit]{.c8}[ to close the menuconfig tool.
+❏ Select **Exit** to close the menuconfig tool.
 
-Next, run the command [make tcpdump]{.c8}[. It will take a while,
-possibly 20 minutes or more.
+![](images/image18.png)
+
+❏ Run the command `make tcpdump`. It may take a while, possibly 20 minutes or more.
 
 ![](images/image19.png)
+
+❗️[At this point I'm getting errors I haven't resolved yet. Stay tuned for an update.]
+
+❏ Next you'll run `make`.
+
+## Use dd to start manipulating the firmware
+
+40 hex bytes at a time, but skip first 40 bytes:
+
+```
+dd if=US_FH1201V1.0BR_V1.2.0.14(408)_EN_RD.bin of=data
+bs=$((0x40)) skip=1
+```
+
+## Enter CFE mode in the serial shell
+
+❏ Open a serial shell session with your router (explained above).
+
+❏ Unplug the router and plug it back in. While it turns on, press **ctrl+C** repeadly.
+
+❏ If you do it right, you'll be in CFE mode; if not, try again.
+
+❏ Log in with the username **root** and password **Fireitup**.
+
+## Unbrick your router
+
+❏ Enter CFE mode using the steps above.
+
+❏ Plug your computer into the router with an Ethernet cable.
+
+❏ Give yourself an IP address, like `192.168.1.X` (replacing X with a number)
+
+❏ In your browser, go to `192.168.1.1` and upload a TRX firmware file.
+
+## Hardware details
+
+- Wireless adapter: BCM43526
+
+- SOIC8: square next to serial connectors, which contains the firmware
+
+- SOIC: 25q64b
+
+- Main CPU: BCM5357
+
+- CH341 is the tool to flash the firmware chip itself.
+
+## Additional notes to finish(?)
+
+Part of the firmware is compressed with JFS2, and part of it uses TRX.
+
+TRX format starts with HR0 in all caps.
+
+You can use [BinDiff](https://www.zynamics.com/software.html) to compare firmware files.
+
+❏ Mount file system in serial shell:
+
+```
+mount -t usbfs none /proc/bus/usb/
+```
+
+Creating 8 MTD partitions on "sflash":
+
+[what's on the flash device]
+
+binwalk -Me firmware.bin
+
+CRC value tells us the checksum of everything after HDR0. 
+
+OpenWRT has tools to do this.
+
+❏ Show connected USB devices:
+
+```
+cat /proc/bus/usb/
+```
