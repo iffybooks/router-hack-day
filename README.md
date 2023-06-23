@@ -4,8 +4,11 @@
 
 <img title="" src="images/image1.png" alt="" width="165" data-align="left">
 
- You can find this document online at the following URL: 
- [https://iffybooks.net/router-hack-day-2](https://iffybooks.net/router-hack-day-2)
+ You can find this document online at the following URLs: 
+
+- [https://iffybooks.net/router-hack-day-2](https://iffybooks.net/router-hack-day-2)
+
+- [https://github.com/iffybooks/router-hack-day](https://github.com/iffybooks/router-hack-day)
 
 ## Connect wires to your router's serial pinout
 
@@ -270,7 +273,7 @@ cc -g -O2  -I. -I./LZMA/lzma465/C -I./LZMA/lzmalt -I./LZMA/lzmadaptive/C/7zip/Co
 g++   ./LZMA/lzmalt/*.o unsquashfs.o unsquash-1.o unsquash-2.o unsquash-3.o unsquash-4.o swap.o compressor.o unsquashfs_info.o gzip_wrapper.o lzma_wrapper.o ./LZMA/lzma465/C/Alloc.o ./LZMA/lzma465/C/LzFind.o ./LZMA/lzma465/C/LzmaDec.o ./LZMA/lzma465/C/LzmaEnc.o ./LZMA/lzma465/C/LzmaLib.o lzo_wrapper.o read_xattrs.o unsquashfs_xattr.o -lpthread -lm -lz -L./LZMA/lzmadaptive/C/7zip/Compress/LZMA_Lib -llzmalib   -llzo2 -o sasquatch
 ```
 
-Run the commands below to move the compiled binary **sasquatch** to your **/usr/local/bin** directory:
+❏ Run the commands below to move the compiled binary **sasquatch** to your **/usr/local/bin** directory:
 
 ```
 mkdir -p /usr/local/bin
@@ -384,11 +387,15 @@ bs=$((0x40)) skip=1
 
 - CH341 is the tool to flash the firmware chip itself.
 
-## Additional notes to finish(?)
+## Thanks!
+
+Many thanks to Jim, [mbm], Anthony, Mattie, Steve, and everyone else who's contributed to this project. (PRs welcome if your name belongs here.)
+
+## Additional notes to add(?)
 
 Part of the firmware is compressed with JFS2, and part of it uses TRX.
 
-TRX format starts with HR0 in all caps.
+The TRX-formatted part starts with **HR0** in all caps.
 
 You can use [BinDiff](https://www.zynamics.com/software.html) to compare firmware files.
 
@@ -413,3 +420,5 @@ OpenWRT has tools to do this.
 ```
 cat /proc/bus/usb/
 ```
+
+## 
