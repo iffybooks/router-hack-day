@@ -8,9 +8,20 @@
 
 - [https://iffybooks.net/router-hack-day-2](https://iffybooks.net/router-hack-day-2)
 
-- [https://github.com/iffybooks/router-hack-day](https://github.com/iffybooks/router-hack-day)
+- [https://github.com/iffybooks/router-hack-day](https://github.com/iffybooks/router-hack-day) 
 
-## Connect wires to your router's serial pinout
+For the past few months, a handful of people in the Iffy Books community have been hacking away at a cheap [Tenda](https://tendacn.com/us/default.html) router from 2016, simply because we have a lot of them. We’re selling the routers for $8 each at Iffy Books, and splitting the proceeds with [Philly Community Wireless](https://phillycommunitywireless.org/).
+
+Our ultimate goal is to install open firmware such as [OpenWrt](https://openwrt.org/) or [FreshTomato](https://www.freshtomato.org/).
+ We can’t install up-to-date releases, however, due to memory and 
+storage limitations on the router. At this point in the project we’re 
+still poking at the router’s firmware and figuring out what’s possible.
+
+[Here’s a previous post](https://iffybooks.net/challenge-router-progress/) on decompressing the router firmware, and [here’s a link](https://iffybooks.net/event/router-hack-day/) to the notes and resources we used for our first Router Hack Day event in May.
+
+This page is still a work in progress! We’ll be updating it during our [Router Hack Day event on 6/24](https://iffybooks.net/event/router-hack-june-24/), including adding alt text. If you want to contribute, see the GitHub link above.
+
+## Connect jumper wires to your router's serial pinout
 
 ❏ Disassemble your router. You'll need to remove a screw on the bottom,
 which is covered by a sticker.
@@ -51,7 +62,11 @@ If your computer recognizes the device, the output should look something like `/
 sudo apt-get autoremove brltty
 ```
 
-↳ If you're still troubleshooting, you can run `lsusb` and/or `dmesg` to get more info about your connected USB devices.
+↳ If you're still troubleshooting, you can run `lsusb` and/or `dmesg` to get more info about your connected USB devices. Or run the following command:
+
+```
+cat /proc/bus/usb/
+```
 
 ## Open a serial connection with your router
 
@@ -267,7 +282,7 @@ cc -g -O2  -I. -I./LZMA/lzma465/C -I./LZMA/lzmalt -I./LZMA/lzmadaptive/C/7zip/Co
 g++   ./LZMA/lzmalt/*.o unsquashfs.o unsquash-1.o unsquash-2.o unsquash-3.o unsquash-4.o swap.o compressor.o unsquashfs_info.o gzip_wrapper.o lzma_wrapper.o ./LZMA/lzma465/C/Alloc.o ./LZMA/lzma465/C/LzFind.o ./LZMA/lzma465/C/LzmaDec.o ./LZMA/lzma465/C/LzmaEnc.o ./LZMA/lzma465/C/LzmaLib.o lzo_wrapper.o read_xattrs.o unsquashfs_xattr.o -lpthread -lm -lz -L./LZMA/lzmadaptive/C/7zip/Compress/LZMA_Lib -llzmalib   -llzo2 -o sasquatch
 ```
 
-❏ Run the commands below to move the compiled binary **sasquatch** to your **/usr/local/bin** directory:
+❏ Run the commands below to move the compiled **sasquatch** binary to your **/usr/local/bin** directory:
 
 ```
 mkdir -p /usr/local/bin

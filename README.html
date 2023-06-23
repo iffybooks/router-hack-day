@@ -1,0 +1,341 @@
+<h1 id="notes-for-router-hack-day-2">Notes for Router Hack Day 2</h1>
+<p><em>Saturday, June 24th, 2023</em></p>
+<p><img title="" src="images/image1.png" alt="" width="165" data-align="left"></p>
+<p> You can find this document online at the following URLs:</p>
+<ul>
+<li><p><a
+href="https://iffybooks.net/router-hack-day-2">https://iffybooks.net/router-hack-day-2</a></p></li>
+<li><p><a
+href="https://github.com/iffybooks/router-hack-day">https://github.com/iffybooks/router-hack-day</a></p></li>
+</ul>
+<p>For the past few months, a handful of people in the Iffy Books
+community have been hacking away at a cheap <a
+href="https://tendacn.com/us/default.html">Tenda</a> router from 2016,
+simply because we have a lot of them. We’re selling the routers for $8
+each at Iffy Books, and splitting the proceeds with <a
+href="https://phillycommunitywireless.org/">Philly Community
+Wireless</a>.</p>
+<p>Our ultimate goal is to install open firmware such as <a
+href="https://openwrt.org/">OpenWrt</a> or <a
+href="https://www.freshtomato.org/">FreshTomato</a>. We can’t install
+up-to-date releases, however, due to memory and storage limitations on
+the router. At this point in the project we’re still poking at the
+router’s firmware and figuring out what’s possible.</p>
+<p><a href="https://iffybooks.net/challenge-router-progress/">Here’s a
+previous post</a> on decompressing the router firmware, and <a
+href="https://iffybooks.net/event/router-hack-day/">here’s a link</a> to
+the notes and resources we used for our first Router Hack Day event in
+May.</p>
+<p>This page is still a work in progress! We’ll be updating it during
+our <a href="https://iffybooks.net/event/router-hack-june-24/">Router
+Hack Day event on 6/24</a>, including adding alt text. If you want to
+contribute, see the GitHub link above.</p>
+<h2 id="connect-jumper-wires-to-your-routers-serial-pinout">Connect
+jumper wires to your router’s serial pinout</h2>
+<p>❏ Disassemble your router. You’ll need to remove a screw on the
+bottom, which is covered by a sticker.</p>
+<p>❏ Cut the ends off three DuPont jumper wires, leaving port connectors
+on the other ends.</p>
+<p>❏ Solder the stripped wires to the pinout terminals pictured below,
+located in the middle of the circuit board.</p>
+<p><img title="" src="images/image14.png" alt="" width="509" data-align="center"></p>
+<p>❏ Next you’ll connect the the three wires to your USB serial
+interface.</p>
+<ul>
+<li><p>Connect the terminal labeled <strong>Tx</strong> in the image
+above to the pin labeled <strong>Rx</strong> on your USB serial
+interface.</p></li>
+<li><p>Connect <strong>Rx</strong> from the router to
+<strong>Tx</strong> on the USB serial interface.</p></li>
+<li><p>Connect <strong>GND</strong> to <strong>GND</strong>.</p></li>
+</ul>
+<p><img title="" src="images/image6.png" alt="" width="482" data-align="center"></p>
+<p>❏ Plug the USB serial interface into your computer.</p>
+<p>❏ Plug in the router.</p>
+<p>❏ Run the following command to see if your computer recognizes the
+USB serial device:</p>
+<pre><code>ls /dev/ttyUSB*</code></pre>
+<p>If your computer recognizes the device, the output should look
+something like <code>/dev/ttyUSB0</code>.</p>
+<p>↳ If you don’t get any output, try running the following command to
+uninstall <strong>brltty</strong>. (It’s a program for interfacing with
+braille displays that’s been causing problems with this step.)</p>
+<pre><code>sudo apt-get autoremove brltty</code></pre>
+<p>↳ If you’re still troubleshooting, you can run <code>lsusb</code>
+and/or <code>dmesg</code> to get more info about your connected USB
+devices. Or run the following command:</p>
+<pre><code>cat /proc/bus/usb/</code></pre>
+<h2 id="open-a-serial-connection-with-your-router">Open a serial
+connection with your router</h2>
+<p>❏ Run the following command to install <strong>minicom</strong>:</p>
+<pre><code>sudo apt-get install minicom</code></pre>
+<p>❏ Command for opening serial connection with your router:</p>
+<pre><code>minicom -D /dev/ttyUSB0 -c on</code></pre>
+<p>❏ Press CTRL+A, then press O to open the configuration menu. Use the
+arrow keys to select <strong>Serial port
+setup</strong>.<img title="" src="images/image3.png" alt="" data-align="center"></p>
+<p>❏ Press <strong>F</strong> to switch <strong>Hardware Flow
+Control</strong> to <strong>No</strong>.</p>
+<p><img src="images/image5.png" /></p>
+<p>❏ Press <strong>enter</strong> to close the serial port setup
+menu.</p>
+<p>❏ To save this setting as your default, use the down arrow to select
+<strong>Save setup as dfl</strong>. Press <strong>enter</strong> to
+save.</p>
+<p><img src="images/image4.png" /></p>
+<p>❏ Use the arrow keys to select <strong>Exit</strong>, then press
+<strong>enter</strong>.</p>
+<p>❏ Press <strong>enter</strong> once or twice and you’ll be prompted
+to log in. Use the login info below:</p>
+<p>    username: <strong>root</strong></p>
+<p>    password: <strong>Fireitup</strong></p>
+<p>❏ Press <strong>tab</strong> twice in a row to see a list of
+available tools.</p>
+<p>❏ Restart your router while the USB serial connector is attached and
+you’ll see a waterfall of interesting startup info:</p>
+<p><img src="images/image8.png" /></p>
+<p>❏ To get your router’s SSID name, use the command
+<code>wl status</code>.</p>
+<p><img src="images/image7.png" /></p>
+<h2 id="download-router-firmware">Download router firmware</h2>
+<p>Here’s the stock firmware that comes with the router:</p>
+<ul>
+<li>Atlas Media AMW-DBR1200AC Firmware: <a
+href="https://iffybooks.net/wp-content/uploads/2023/05/AtlasMedia_AC1200_FirmwareV1.4.bin">https://iffybooks.net/wp-content/uploads/2023/05/AtlasMedia_AC1200_FirmwareV1.4.bin</a></li>
+</ul>
+<p>And here are two firmware releases from Tenda that work with the
+router. You’ll need to extract the files after downloading:</p>
+<ul>
+<li><p>Tenda FH1201 Firmware V1.2.0.8_EN: <a
+href="https://www.tendacn.com/us/download/detail-2123.html">https://www.tendacn.com/us/download/detail-2123.html</a></p></li>
+<li><p>Tenda FH1206 Firmware V1.2.0.8(8155)_EN: <a
+href="https://www.tendacn.com/us/download/detail-2344.html">https://www.tendacn.com/us/download/detail-2344.html</a></p></li>
+</ul>
+<p>❏ Download the <a
+href="https://www.tendacn.com/us/download/detail-2344.html">Tenda FH1206
+firmware</a> or your firmware of choice from the list above.</p>
+<p>❏ Decompress the <a
+href="https://en.wikipedia.org/wiki/RAR_(file_format)">RAR</a> files you
+downloaded from Tenda’s site, giving you a firmware file with a name
+like <strong>US_FH1206V1.0BR_V1.2.0.8(8155)_EN_TD.bin</strong>. If you
+don’t already have a program installed for decompressing RAR files, you
+can use one of the following:</p>
+<ul>
+<li><p>MacOS: The Unarchiver <a
+href="https://theunarchiver.com">https://theunarchiver.com</a></p></li>
+<li><p>Windows: WinRAR <a
+href="https://www.win-rar.com/">https://www.win-rar.com</a></p></li>
+<li><p>Linux: unrar <a
+href="https://linux.die.net/man/1/unrar">https://linux.die.net/man/1/unrar</a></p></li>
+</ul>
+<h2 id="update-router-firmware-through-the-admin-panel">Update router
+firmware through the admin panel</h2>
+<p>❏ Connect to your router’s network via wi-fi or Ethernet.</p>
+<p>❏ Open your browser and go to <code>192.168.0.1</code> to access the
+admin panel. Log in with the default password
+<strong>admin</strong>.</p>
+<p>❏ After loggin in, click <strong>Advanced</strong> and go to the
+<strong>Tools</strong> tab. Then click <strong>Firmware Update</strong>
+in the left column.</p>
+<p>❏ Click the <strong>Browse</strong> button and select a firmware
+file. Then click <strong>Upgrade</strong> to start flashing the firmware
+to the router.</p>
+<p><img src="images/image10.png" /></p>
+<p>❏ If you want, you can open the serial shell to monitor the upload
+process.</p>
+<p><img src="images/image9.png" /></p>
+<p>❏ When the flashing process is done, connect to the router’s network
+and go to <code>192.168.0.1</code> in your browser. You’ll notice the
+admin panel looks slightly different compared to the stock firmware.</p>
+<p><img src="images/image11.png" /></p>
+<h2 id="decompress-the-router-firmware-the-quick-easy-way">Decompress
+the router firmware (the quick, easy way)</h2>
+<p>The easiest way to see what’s in the firmware is to decompress with
+<a href="https://unblob.org/">unblob</a>, using a Docker container to
+avoid dealing with dependencies. The downside of this approach is
+(compared to using unsquashfs, which we’ll introduce below) is that you
+can’t easily make edits and re-compress the firmware files.</p>
+<p>❏ If you don’t have Docker installed, download and install it now:
+[https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/]](https://docs.docker.com/get-docker/)</p>
+<p>❏ Create directories named <strong>input</strong> and
+<strong>output</strong> in the same directory, and <strong>cd</strong>
+to it.</p>
+<pre><code>mkdir -p ~/Documents/Router_firmware/input
+mkdir -p ~/Documents/Router_firmware/output
+cd ~/Documents/Router_firmware</code></pre>
+<p>❏ Move your <strong>.bin</strong> firmware file to the
+<strong>input</strong> directory:</p>
+<p><img src="file:///Users/iffybooks/Library/Application%20Support/marktext/images/2023-06-23-00-28-42-image.png" title="" alt="" data-align="center"></p>
+<p>❏ Change the firmware filename to <strong>firmware.bin</strong>
+(optional; this is so the Docker command is the same for everyone):</p>
+<p><img
+src="/Users/iffybooks/Library/Application%20Support/marktext/images/2023-06-23-00-29-49-image.png" /></p>
+<p>❏ Open the Docker application; it may take a minute or so to launch.
+You’ll see a whale icon in your toolbar when it’s ready.</p>
+<p>❏ Run this command to pull the latest unblob Docker image:</p>
+<pre><code>docker pull ghcr.io/onekey-sec/unblob:latest</code></pre>
+<p>❏ Run the Docker command below to decompress your firmware file:</p>
+<pre><code>docker run --rm \
+-v ./input:/data/input \
+-v ./output:/data/output \
+ghcr.io/onekey-sec/unblob:latest /data/input/firmware.bin</code></pre>
+<p>When it’s done, open the <strong>output</strong> directory and you’ll
+see a new directory called <strong>firmware.bin_extract</strong> that
+contains the decompressed firmware.</p>
+<p><img title="" src="file:///Users/iffybooks/Library/Application%20Support/marktext/images/2023-06-23-00-59-10-image.png" alt="" data-align="center" width="438"></p>
+<p>↳ If you get interrupted and want to start again, you’ll need to
+delete the <strong>firmware.bin_extract</strong> directory in
+<strong>output</strong>.</p>
+<pre><code>rm -rd ./output/firmware.bin_extract</code></pre>
+<h2
+id="decompress-the-router-firmware-the-proper-difficult-way">Decompress
+the router firmware (the proper, difficult way)</h2>
+<p>These instructions are from Jim. Thanks, Jim!</p>
+<p>❏ Clone the Sasquatch repo:</p>
+<pre><code>git clone https://github.com/devttys0/sasquatch.git</code></pre>
+<p>❏ Then <strong>cd</strong> into the sasquatch directory.</p>
+<p>❏ The README mentions this as a pre-req, so do this:</p>
+<pre><code>sudo apt-get install build-essential liblzma-dev liblzo2-dev zlib1g-dev</code></pre>
+<p>❏ If you run <code>./build.sh</code> at this point you will get a
+bunch of errors related to xz_wrapper and LZMA. Eventually it ends in
+something like this:</p>
+<pre><code>xz_wrapper.c:462:20: error: ‘LZMA_BUF_ERROR’ undeclared (first use in this function)
+  462 |   } else if(res != LZMA_BUF_ERROR)
+      |                    ^~~~~~~~~~~~~~
+xz_wrapper.c: In function ‘xz_uncompress’:
+xz_wrapper.c:494:2: error: unknown type name ‘lzma_ret’
+  494 |  lzma_ret res = lzma_stream_buffer_decode(&amp;memlimit, 0, NULL,
+      |  ^~~~~~~~
+xz_wrapper.c:494:17: error: implicit declaration of function ‘lzma_stream_buffer_decode’ [-Werror=implicit-function-declaration]
+  494 |  lzma_ret res = lzma_stream_buffer_decode(&amp;memlimit, 0, NULL,
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+xz_wrapper.c:497:12: error: ‘LZMA_OK’ undeclared (first use in this function)
+  497 |  if(res == LZMA_OK &amp;&amp; size == (int) src_pos)
+      |            ^~~~~~~
+xz_wrapper.c:503:1: error: control reaches end of non-void function [-Werror=return-type]
+  503 | }
+      | ^
+cc1: all warnings being treated as errors
+make: *** [&lt;builtin&gt;: xz_wrapper.o] Error 1</code></pre>
+<p>❏ Open the patch file in <code>./patches/patch0.txt</code> and find
+this section:</p>
+<pre><code># To build using XZ Utils liblzma - install the library and uncomment
+# the XZ_SUPPORT line below.
+
+-#XZ_SUPPORT = 1
++XZ_SUPPORT = 1</code></pre>
+<p>It will be around line 38087 of the 38726, so pretty close to the
+bottom of the file.</p>
+<p>❏ Change the line from <code>+XZ_SUPPORT = 1</code> to
+<code>+XZ_SUPPORT = 0</code></p>
+<p>then run <strong>./build.sh</strong> again.</p>
+<p>This time it works successfully and end in something like this:</p>
+<pre><code>make[1]: Entering directory &#39;/AC1200/sasquatch/squashfs4.3/squashfs-tools/LZMA/lzmadaptive/C/7zip/Compress/LZMA_Lib&#39;
+make[1]: Nothing to be done for &#39;all&#39;.
+make[1]: Leaving directory &#39;/AC1200/sasquatch/squashfs4.3/squashfs-tools/LZMA/lzmadaptive/C/7zip/Compress/LZMA_Lib&#39;
+cc -g -O2  -I. -I./LZMA/lzma465/C -I./LZMA/lzmalt -I./LZMA/lzmadaptive/C/7zip/Compress/LZMA_Lib -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_GNU_SOURCE -DCOMP_DEFAULT=\&quot;gzip\&quot; -Wall -Werror  -DGZIP_SUPPORT -DLZMA_SUPPORT -DLZO_SUPPORT -DXATTR_SUPPORT -DXATTR_DEFAULT   -c -o lzma_wrapper.o lzma_wrapper.c
+g++   ./LZMA/lzmalt/*.o unsquashfs.o unsquash-1.o unsquash-2.o unsquash-3.o unsquash-4.o swap.o compressor.o unsquashfs_info.o gzip_wrapper.o lzma_wrapper.o ./LZMA/lzma465/C/Alloc.o ./LZMA/lzma465/C/LzFind.o ./LZMA/lzma465/C/LzmaDec.o ./LZMA/lzma465/C/LzmaEnc.o ./LZMA/lzma465/C/LzmaLib.o lzo_wrapper.o read_xattrs.o unsquashfs_xattr.o -lpthread -lm -lz -L./LZMA/lzmadaptive/C/7zip/Compress/LZMA_Lib -llzmalib   -llzo2 -o sasquatch</code></pre>
+<p>❏ Run the commands below to move the compiled
+<strong>sasquatch</strong> binary to your
+<strong>/usr/local/bin</strong> directory:</p>
+<pre><code>mkdir -p /usr/local/bin
+cp sasquatch /usr/local/bin</code></pre>
+<p>❏ Now when you run <strong>binwalk</strong> on the firmware dump file
+it will extract as expected:</p>
+<pre><code>binwalk -eM flash.bin</code></pre>
+<p>❏ Now the squashfs-root directory contains the files from the router.
+Notably, check out the passwd and shadow files:</p>
+<pre><code>$ find . | egrep &quot;passwd|shadow&quot;
+./squashfs-root/etc_ro/passwd
+./squashfs-root/etc_ro/passwd_private
+./squashfs-root/etc_ro/shadow
+./squashfs-root/etc_ro/shadow_private
+./squashfs-root/usr/bin/passwd
+./squashfs-root/usr/sbin/chpasswd
+./squashfs-root/var/etc/passwd
+./squashfs-root/var/etc/passwd_private
+./squashfs-root/var/etc/shadow
+./squashfs-root/var/etc/shadow_private</code></pre>
+<h2 id="install-and-configure-buildroot">Install and configure
+buildroot</h2>
+<p>❏ Go to <a href="https://buildroot.org">https://buildroot.org</a> and
+click <strong>Download</strong>.</p>
+<p>❏ Download and extract the package.</p>
+<p>❏ <strong>cd</strong> to the directory you just created. Then run the
+command <code>make menuconfig</code>.</p>
+<p><img src="images/image12.png" /></p>
+<p>❏ Go to <strong>Target options &gt; Target Architecture</strong> and
+select <strong>MIPS (little endian)</strong>.</p>
+<p>❏ Go to <strong>Toolchain &gt; Toolchain type</strong> and switch the
+C library to <strong>musl</strong>.</p>
+<p><img src="images/image13.png" /></p>
+<p><img src="images/image15.png" /></p>
+<p>❏ Select <strong>Exit</strong> with the left and right arrow keys to
+go back to the main menu.</p>
+<p>❏ Go to <strong>Build options</strong> and set
+<strong>libraries</strong> to <strong>shared only</strong>.</p>
+<p><img src="images/image16.png" /></p>
+<p>❏ Go to <strong>Target packages &gt; Networking applications &gt;
+enable tcpdump</strong> (press space).</p>
+<p>❏ Go back to the main menu and select <strong>Save</strong>. Select
+<strong>OK</strong> and press <strong>enter</strong>.</p>
+<p><img src="images/image17.png" /></p>
+<p>❏ Select <strong>Exit</strong> to close the menuconfig tool.</p>
+<p><img src="images/image18.png" /></p>
+<p>❏ Run the command <code>make tcpdump</code>. It may take a while,
+possibly 20 minutes or more.</p>
+<p><img src="images/image19.png" /></p>
+<p>❗️[At this point I’m getting errors I haven’t resolved yet. Stay
+tuned for an update.]</p>
+<p>❏ Next you’ll run <code>make</code>.</p>
+<h2 id="use-dd-to-start-manipulating-the-firmware">Use dd to start
+manipulating the firmware</h2>
+<p>40 hex bytes at a time, but skip first 40 bytes:</p>
+<pre><code>dd if=US_FH1201V1.0BR_V1.2.0.14(408)_EN_RD.bin of=data
+bs=$((0x40)) skip=1</code></pre>
+<h2 id="enter-cfe-mode-in-the-serial-shell">Enter CFE mode in the serial
+shell</h2>
+<p>❏ Open a serial shell session with your router (explained above).</p>
+<p>❏ Unplug the router and plug it back in. While it turns on, press
+<strong>ctrl+C</strong> repeadly.</p>
+<p>❏ If you do it right, you’ll be in CFE mode; if not, try again.</p>
+<p>❏ Log in with the username <strong>root</strong> and password
+<strong>Fireitup</strong>.</p>
+<h2 id="unbrick-your-router">Unbrick your router</h2>
+<p>❏ Enter CFE mode using the steps above.</p>
+<p>❏ Plug your computer into the router with an Ethernet cable.</p>
+<p>❏ Give yourself an IP address, like <code>192.168.1.X</code>
+(replacing X with a number)</p>
+<p>❏ In your browser, go to <code>192.168.1.1</code> and upload a TRX
+firmware file.</p>
+<h2 id="hardware-details">Hardware details</h2>
+<ul>
+<li><p>Wireless adapter: BCM43526</p></li>
+<li><p>SOIC8: square next to serial connectors, which contains the
+firmware</p></li>
+<li><p>SOIC: 25q64b</p></li>
+<li><p>Main CPU: BCM5357</p></li>
+<li><p>CH341 is the tool to flash the firmware chip itself.</p></li>
+</ul>
+<h2 id="thanks">Thanks!</h2>
+<p>Many thanks to Jim, [mbm], Anthony, Mattie, Steve, and everyone else
+who’s contributed to this project. (PRs welcome if your name belongs
+here.)</p>
+<h2 id="additional-notes-to-add">Additional notes to add(?)</h2>
+<p>Part of the firmware is compressed with JFS2, and part of it uses
+TRX.</p>
+<p>The TRX-formatted part starts with <strong>HR0</strong> in all
+caps.</p>
+<p>You can use <a
+href="https://www.zynamics.com/software.html">BinDiff</a> to compare
+firmware files.</p>
+<p>❏ Mount file system in serial shell:</p>
+<pre><code>mount -t usbfs none /proc/bus/usb/</code></pre>
+<p>Creating 8 MTD partitions on “sflash”:</p>
+<p>[what’s on the flash device]</p>
+<p>binwalk -Me firmware.bin</p>
+<p>CRC value tells us the checksum of everything after HDR0.</p>
+<p>OpenWRT has tools to do this.</p>
+<p>❏ Show connected USB devices:</p>
+<pre><code>cat /proc/bus/usb/</code></pre>
+<h2 id="section"></h2>
