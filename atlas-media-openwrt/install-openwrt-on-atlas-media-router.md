@@ -89,6 +89,8 @@ minicom -D /dev/ttyUSB0 -c on
 
 • Next you'll test your USB serial adapter. Touch the plug end of your Tx jumper wire to the Rx pin, then type a few characters in the minicom window. If the characters appear onscreen, your USB serial interface is working.
 
+<img title="" src="images/e12281c62ccbb63b66fb3ff98b4a11f12056344b.png" alt="IMG_7005.png" width="345" data-align="center">
+
 <img title="" src="images/582df64a24bd07fd487ca76c0da71ea30b528c47.png" alt="Screenshot from 2023-07-13 13-24-51.png" width="495" data-align="center">
 
 • Reconnect the ethernet cable to your router.
