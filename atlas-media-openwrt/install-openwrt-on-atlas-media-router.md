@@ -1,15 +1,6 @@
----
-geometry: "left=25mm,right=25mm,top=10mm,bottom=25mm"
-output: pdf_document
-fontsize: 18pt
-mainfont: OpenSans-Regular.ttf
-sansfont: OpenSans-Light.ttf
-monofont: JetBrainsMono-SemiBold.ttf
-mathfont: texgyredejavu-math.otf 
-toc: false
----
-
 # Install OpenWrt on your Atlas Media Router
+
+*[This zine is a draft! parts of it aren't completely finished. Last updated July 14, 2023.]*
 
 The Iffy Books router challenge is complete! We have a working build of OpenWrt that you can install on the Atlas Media routers we've been hacking away at for the past few months! Retry and Jim are sharing the prize, which we'll award at [Router Hack Day III](https://iffybooks.net/event/router-hack-day-3/) on Saturday, July 29th. We should also thank Anthony, who helped with initial research and did a great job spreading the word about the project.
 
@@ -134,8 +125,9 @@ http://192.168.1.1
 
 <img title="" src="images/6de9ab2666529d68a3c30a699e372956c9434236.png" alt="Screenshot from 2023-07-13 13-35-25.png" width="644" data-align="center">
 
-• Change your router's local IP address to avoid conflicts.
-[...]
+• If your home router (or something else) is using the IP address 192.168.1.1, you'll need to change your router's LAN IP address. Change the IP address to 192.168.1.X, where X is a number <= 255, but not 1.
+
+Details at the following URL: https://openwrt.org/docs/guide-user/network/openwrt_as_routerdevice
 
 • Before reassembling your router's case, you may want to drill holes in it to provide access to the ground and Rx pins in case you want to re-flash the firmware later.
 
@@ -145,13 +137,7 @@ http://192.168.1.1
 
 • Screw on the router's base.
 
-###########
-
-- Give Your Router a Unique IP address on the LAN:
-
-https://openwrt.org/docs/guide-user/network/openwrt_as_routerdevice
-
-Change the IP address to 192.168.1.X, where X is a number <= 255, but not 1.
+## More steps coming soon:
 
 - Connect an ethernet cable from the internet to your router
 

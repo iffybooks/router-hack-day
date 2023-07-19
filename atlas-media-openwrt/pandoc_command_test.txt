@@ -1,0 +1,13 @@
+pandoc --pdf-engine=xelatex -V geometry:a5paper install-openwrt-on-atlas-media-router.md -o install-openwrt-on-atlas-media-router.pdf
+
+
+---
+geometry: "left=25mm,right=25mm,top=10mm,bottom=25mm"
+output: pdf_document
+fontsize: 18pt
+mainfont: OpenSans-Regular.ttf
+sansfont: OpenSans-Light.ttf
+monofont: JetBrainsMono-SemiBold.ttf
+mathfont: texgyredejavu-math.otf 
+toc: false
+---
