@@ -1,6 +1,6 @@
 # Install OpenWrt on your Atlas Media Router
 
-*[This zine is a draft! parts of it aren't completely finished. Last updated July 14, 2023.]*
+*[This zine is still a draft. Last updated July 19, 2023.]*
 
 The Iffy Books router challenge is complete! We have a working build of OpenWrt that you can install on the Atlas Media routers we've been hacking away at for the past few months! Retry and Jim are sharing the prize, which we'll award at [Router Hack Day III](https://iffybooks.net/event/router-hack-day-3/) on Saturday, July 29th. We should also thank Anthony, who helped with initial research and did a great job spreading the word about the project.
 
@@ -137,16 +137,4 @@ Details at the following URL: https://openwrt.org/docs/guide-user/network/openwr
 
 • Screw on the router's base.
 
-## More steps coming soon:
-
-- Connect an ethernet cable from the internet to your router
-
-- Check your internet connection
-
-ssh root@192.168.1.10
-
-- Update the package manager
-
-opkg update
-
-- Open the OpenWrt admin panel and go to System > Software 
+## Now the fun begins! If you make something cool using OpenWrt, send an email to iffybooks@iffybooks.net and let us know!
