@@ -17,19 +17,19 @@ https://iffybooks.net/AtlasMediaOpenWrt.trx
 
 • Turn off your wi-fi.
 
-<img title="" src="./images/6ab034c20d4e423a0ad821d0add65f429a81a49b.png" alt="Screenshot from 2023-07-13 13-09-42.png" width="327" data-align="center">&nbsp;
+<img title="" src="./images/6ab034c20d4e423a0ad821d0add65f429a81a49b.png" alt="Screenshot from 2023-07-13 13-09-42.png" width="227" data-align="center">&nbsp;
 
 • Connect the router to your computer with an ethernet cable and power it on.
 
-<img title="" src="./images/3383f7bd8cb24d18522ed908b2102ba3c030da67.png" alt="IMG_6935.png" width="295" data-align="center">&nbsp;
+<img title="" src="./images/3383f7bd8cb24d18522ed908b2102ba3c030da67.png" alt="IMG_6935.png" width="213" data-align="center">&nbsp;
 
 • Give yourself a static IP address.
 
 Ubuntu: 
 
-<img title="" src="images/2d2d5fcc9465988903a35a781f4ee3661f2ee4ce.png" alt="Screenshot from 2023-07-13 13-12-10.png" width="539" data-align="center">&nbsp;
+<img title="" src="images/2d2d5fcc9465988903a35a781f4ee3661f2ee4ce.png" alt="Screenshot from 2023-07-13 13-12-10.png" width="339" data-align="center">&nbsp;
 
-<img title="" src="images/f62d397e52ca420cd41f291415a8505750a1edb5.png" alt="Screenshot from 2023-07-13 13-12-39.png" width="436" data-align="center">&nbsp;
+<img title="" src="images/f62d397e52ca420cd41f291415a8505750a1edb5.png" alt="Screenshot from 2023-07-13 13-12-39.png" width="326" data-align="center">&nbsp;
 
 <img title="" src="images/7e7faccd2b54ea7ad249495c45472d8a9a7d6003.png" alt="Screenshot from 2023-07-13 13-13-15.png" width="439" data-align="center">&nbsp;
 
@@ -137,4 +137,4 @@ Details at the following URL: https://openwrt.org/docs/guide-user/network/openwr
 
 • Screw on the router's base.
 
-## Now the fun begins! If you make something cool using OpenWrt, send an email to iffybooks@iffybooks.net and let us know!
+## Now the fun begins! If you make something cool with OpenWrt on your Atlas Media router, send an email to iffybooks@iffybooks.net and let us know.
