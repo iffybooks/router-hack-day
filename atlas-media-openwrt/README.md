@@ -138,7 +138,7 @@ Here's what the router looks like inside:
 
 • Make sure your Minicom terminal window is still open. Plug in your router and immediately press **ctrl+C** on your keyboard repeatedly. You'll need to start less than a second after the router's lights turn on.
 
-• Open your browser and go to the following address, using **http** at the beginning of the URL (instead of "https", which your browser may use by default): http://192.168.1.1
+• Open your browser and go to the following address, using **http** at the beginning of the URL instead of "https", which your browser may use by default: **http://192.168.1.1**
 
 If you're in CFE mode, you'll see a page like the one below. If you don't, skip back to the previous step and try again.
 
